@@ -1,0 +1,4 @@
+name: ExotiaEconomy
+version: '${project.version}'
+main: net.exotia.exotiaeconomy.ExotiaEconomy
+api-version: 1.19
