@@ -4,12 +4,14 @@ import dev.rollczi.litecommands.argument.Arg;
 import dev.rollczi.litecommands.command.execute.Execute;
 import dev.rollczi.litecommands.command.route.Route;
 import eu.okaeri.injector.annotation.Inject;
+import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.module.EconomyService;
 import org.bukkit.entity.Player;
 
 @Route(name = "pay")
 public class PayCommand {
     @Inject private EconomyService economyService;
+    @Inject private MessagesConfiguration messages;
 
     @Execute
     public void pay(Player sender, @Arg Player target, @Arg Integer value) {
