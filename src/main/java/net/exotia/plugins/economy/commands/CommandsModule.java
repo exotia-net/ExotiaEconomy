@@ -38,7 +38,7 @@ public class CommandsModule {
                 .commandInstance(
                         this.injector.createInstance(BalanceCommand.class),
                         this.injector.createInstance(PayCommand.class),
-                        new BankCommand()
+                        this.injector.createInstance(BankCommand.class)
                 )
 
                 .invalidUsageHandler(new InvalidCommandUsageHandler())

@@ -2,3 +2,5 @@ name: ExotiaEconomy
 version: '${project.version}'
 main: net.exotia.plugins.economy.EconomyPlugin
 api-version: 1.19
+depend:
+  - ExotiaBridge
