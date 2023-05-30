@@ -10,4 +10,6 @@ import org.bukkit.inventory.ItemStack;
 public class Coin extends OkaeriConfig {
     private int value;
     private ItemStack itemStack;
+
+
 }

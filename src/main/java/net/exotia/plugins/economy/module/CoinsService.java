@@ -2,15 +2,19 @@ package net.exotia.plugins.economy.module;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import eu.okaeri.injector.annotation.Inject;
+import net.exotia.bridge.api.user.ApiUserService;
 import net.exotia.plugins.economy.configuration.files.CoinsConfiguration;
 import net.exotia.plugins.economy.configuration.objects.Coin;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class EconomyService {
+public class CoinsService {
     @Inject private CoinsConfiguration coinsConfiguration;
+    @Inject private ApiUserService userService;
 
     public Coin findCoin(Integer value) {
         return this.coinsConfiguration.getCoins().stream().filter(coin -> coin.getValue() == value).findFirst().orElse(null);
@@ -18,6 +22,12 @@ public class EconomyService {
     public List<Coin> findAllCoins() {
         return this.coinsConfiguration.getCoins();
     }
+    public int[] getValues() {
+        List<Integer> list = new ArrayList<>(this.coinsConfiguration.getCoins().stream().map(Coin::getValue).toList());
+        list.sort(Collections.reverseOrder());
+        return list.stream().mapToInt(Integer::intValue).toArray();
+    }
+
     public ItemStack createCoin(Coin coin) {
         NBTItem nbtItem = new NBTItem(coin.getItemStack());
         nbtItem.setBoolean("isCoin", true);
@@ -35,7 +45,4 @@ public class EconomyService {
         return totalAmount;
     }
 
-    public int getBalance(Player player) {
-        return 0;
-    }
 }
