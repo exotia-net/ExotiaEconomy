@@ -5,6 +5,7 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
+import net.exotia.plugins.economy.inventory.bank.deposit.BankDepositInventory;
 import net.exotia.plugins.economy.inventory.bank.withdraw.BankWithdrawInventory;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -22,6 +23,9 @@ public class BankInventory {
             this.injector.createInstance(BankWithdrawInventory.class).open(player);
         });
 
+        gui.setItem(15, ItemBuilder.from(Material.GRANITE).asGuiItem(event -> {
+            this.injector.createInstance(BankDepositInventory.class).open(player);
+        }));
         gui.setItem(13, deposit);
         gui.open(player);
     }

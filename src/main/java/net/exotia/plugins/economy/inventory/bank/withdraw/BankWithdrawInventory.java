@@ -4,8 +4,7 @@ import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import eu.okaeri.injector.annotation.Inject;
-import net.exotia.bridge.api.user.ApiUser;
-import net.exotia.bridge.api.user.ApiUserService;
+import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.module.CoinsService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,7 +15,7 @@ public class BankWithdrawInventory {
     @Inject private BankWithdrawConfiguration inventoryConfiguration;
     @Inject private CoinsService coinsService;
     @Inject private Plugin plugin;
-    @Inject private ApiUserService userService;
+    @Inject private ApiEconomyService economyService;
 
     private int value;
     private Gui gui;
@@ -32,15 +31,14 @@ public class BankWithdrawInventory {
 
     private GuiItem buildItem(int count, boolean adding) {
         return ItemBuilder.from(this.inventoryConfiguration.getButton(adding, count)).asGuiItem(event -> {
+            Player player = (Player) event.getWhoClicked();
             int temp = adding ? this.value + count : this.value - count;
             if(temp < 1) {
-                GuiItem item = this.gui.getGuiItem(event.getSlot());
-                assert item != null;
-                item.setItemStack(this.inventoryConfiguration.getErrorItem());
-                this.gui.updateItem(event.getSlot(), item);
-                Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
-                    this.gui.updateItem(event.getSlot(), this.buildItem(count, adding));
-                },this.inventoryConfiguration.getErrorDisplayTime());
+                this.showError(event.getSlot(), this.inventoryConfiguration.getErrorItem(), this.buildItem(count, adding));
+                return;
+            }
+            if (!this.economyService.has(player.getUniqueId(), temp)) {
+                this.showError(event.getSlot(), this.inventoryConfiguration.getNoEnoughCoins(), this.buildItem(count, adding));
                 return;
             }
             this.value = temp;
@@ -49,7 +47,10 @@ public class BankWithdrawInventory {
     }
     private GuiItem acceptTransition() {
         return ItemBuilder.from(this.inventoryConfiguration.getAcceptTransaction(this.value)).asGuiItem(event -> {
-            this.calculateCoinsToWithdraw(this.value, (Player) event.getWhoClicked());
+            Player player = (Player) event.getWhoClicked();
+            if (!this.economyService.has(player.getUniqueId(), this.value) || this.value <= 0) return;
+            this.calculateCoinsToWithdraw(this.value, player);
+            this.gui.close(player);
         });
     }
 
@@ -66,13 +67,19 @@ public class BankWithdrawInventory {
         for (int i = 0; i < denominations.length; i++) {
             ItemStack itemStack = this.coinsService.createCoin(this.coinsService.findCoin(denominations[i]));
             itemStack.setAmount(coinsUsed[i]);
+            this.economyService.take(player.getUniqueId(), denominations[i]*coinsUsed[i]);
             player.getInventory().addItem(itemStack);
         }
+        this.economyService.save(player.getUniqueId());
     }
 
-    public GuiItem test(Player player) {
-        ApiUser user = this.userService.getUser(player.getUniqueId());
-        player.sendMessage("Twoje saldo: " + user.getBalance());
-        return this.acceptTransition();
+    private void showError(int slot, ItemStack itemStack, GuiItem guiItem) {
+        GuiItem item = this.gui.getGuiItem(slot);
+        assert item != null;
+        item.setItemStack(itemStack);
+        this.gui.updateItem(slot, item);
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
+            this.gui.updateItem(slot, guiItem);
+        },this.inventoryConfiguration.getErrorDisplayTime());
     }
 }

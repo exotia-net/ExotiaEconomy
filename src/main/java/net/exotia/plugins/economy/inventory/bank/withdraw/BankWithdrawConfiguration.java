@@ -28,6 +28,7 @@ public class BankWithdrawConfiguration extends OkaeriConfig {
     private ItemStack removeCoins = new ItemCreator(Material.RED_SHULKER_BOX).title("&c&l- {amount}").build();
     
     private ItemStack errorItem = new ItemCreator(Material.BARRIER).title("&cMinimalna kwota do wyplacenia to 1!").build();
+    private ItemStack noEnoughCoins = new ItemCreator(Material.BARRIER).title("&cNie masz tyle pieniedzy!").build();
 
     @Comment("In ticks. 20 ticks = 1 seccond")
     private long errorDisplayTime = 20;

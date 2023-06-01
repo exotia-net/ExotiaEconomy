@@ -14,6 +14,7 @@ import net.exotia.plugins.economy.commands.execute.player.BankCommand;
 import net.exotia.plugins.economy.commands.execute.player.PayCommand;
 import net.exotia.plugins.economy.commands.handler.InvalidCommandUsageHandler;
 import net.exotia.plugins.economy.commands.handler.UnauthorizedCommandHandler;
+import net.exotia.plugins.economy.configuration.files.sections.CommandsSection;
 import net.exotia.plugins.economy.configuration.objects.Coin;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.entity.Player;
@@ -22,10 +23,11 @@ import org.bukkit.plugin.Plugin;
 public class CommandsModule {
     @Inject private Plugin plugin;
     @Inject private Injector injector;
+    @Inject private CommandsSection commandsSection;
 
     @PostConstruct
     public void onConstruct() {
-        LiteBukkitFactory.builder(this.plugin.getServer(), this.plugin.getName())
+        var builder = LiteBukkitFactory.builder(this.plugin.getServer(), this.plugin.getName())
                 .argument(Player.class, new BukkitPlayerArgument<>(this.plugin.getServer(), MessageUtil.implementColors("&8&l>> &cTen gracz jest offline!")))
                 .contextualBind(Player.class, new BukkitOnlyPlayerContextual<>(MessageUtil.implementColors("&8&l>> &cTa komenda jest tylko dla gracza!")))
 
@@ -42,7 +44,12 @@ public class CommandsModule {
                 )
 
                 .invalidUsageHandler(new InvalidCommandUsageHandler())
-                .permissionHandler(new UnauthorizedCommandHandler())
-                .register();
+                .permissionHandler(new UnauthorizedCommandHandler());
+
+        this.commandsSection.getEconomyCommands().forEach((baseCommand, command) -> {
+            builder.commandEditor(baseCommand, (editor) -> editor.name(command));
+        });
+
+        builder.register();
     }
 }

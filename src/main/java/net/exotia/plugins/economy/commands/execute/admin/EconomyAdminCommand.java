@@ -55,4 +55,8 @@ public class EconomyAdminCommand {
                         .replace("{physical_balance}", String.valueOf(this.coinsService.getPlayerPhysicalCoins(player))))
                 .forEach(message -> MessageUtil.send(player, message));
     }
+    @Execute(route = "set")
+    public void set(@Arg Player player, @Arg Integer value) {
+
+    }
 }
