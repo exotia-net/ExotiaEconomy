@@ -6,6 +6,7 @@ import net.exotia.bridge.api.ExotiaBridgeInstance;
 import net.exotia.bridge.api.ExotiaBridgeProvider;
 import net.exotia.plugins.economy.commands.CommandsModule;
 import net.exotia.plugins.economy.configuration.ConfigurationModule;
+import net.exotia.plugins.economy.inventory_util.InventoryOpener;
 import net.exotia.plugins.economy.listeners.PlaceCoinListener;
 import net.exotia.plugins.economy.module.CoinsService;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +35,7 @@ public final class EconomyPlugin extends JavaPlugin {
     }
     private void setupModules() {
         this.injector.createInstance(ConfigurationModule.class);
+        this.injector.registerInjectable(this.injector.createInstance(InventoryOpener.class));
         this.injector.registerInjectable(this.injector.createInstance(CoinsService.class));
         this.injector.createInstance(CommandsModule.class);
     }

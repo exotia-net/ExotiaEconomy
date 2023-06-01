@@ -11,6 +11,7 @@ import net.exotia.plugins.economy.commands.arguments.IntegerArgument;
 import net.exotia.plugins.economy.commands.execute.admin.EconomyAdminCommand;
 import net.exotia.plugins.economy.commands.execute.player.BalanceCommand;
 import net.exotia.plugins.economy.commands.execute.player.BankCommand;
+import net.exotia.plugins.economy.commands.execute.player.ExchangeCommand;
 import net.exotia.plugins.economy.commands.execute.player.PayCommand;
 import net.exotia.plugins.economy.commands.handler.InvalidCommandUsageHandler;
 import net.exotia.plugins.economy.commands.handler.UnauthorizedCommandHandler;
@@ -40,7 +41,8 @@ public class CommandsModule {
                 .commandInstance(
                         this.injector.createInstance(BalanceCommand.class),
                         this.injector.createInstance(PayCommand.class),
-                        this.injector.createInstance(BankCommand.class)
+                        this.injector.createInstance(BankCommand.class),
+                        this.injector.createInstance(ExchangeCommand.class)
                 )
 
                 .invalidUsageHandler(new InvalidCommandUsageHandler())

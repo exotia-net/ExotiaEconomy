@@ -28,7 +28,6 @@ public class BankDepositConfiguration extends OkaeriConfig {
                 .title(Component.text(this.title))
                 .rows(this.rows).create();
         gui.getFiller().fillBorder(ItemBuilder.from(this.borderItem).asGuiItem(event -> event.setCancelled(true)));
-//        gui.disableAllInteractions();
         return gui;
     }
     public ItemStack getDepositButton(int amount) {

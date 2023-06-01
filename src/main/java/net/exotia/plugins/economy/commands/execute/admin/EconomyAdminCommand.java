@@ -3,10 +3,12 @@ package net.exotia.plugins.economy.commands.execute.admin;
 import dev.rollczi.litecommands.argument.Arg;
 import dev.rollczi.litecommands.command.execute.Execute;
 import dev.rollczi.litecommands.command.route.Route;
+import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.bridge.api.user.ApiUser;
 import net.exotia.bridge.api.user.ApiUserService;
+import net.exotia.plugins.economy.configuration.ConfigurationService;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.configuration.objects.Coin;
 import net.exotia.plugins.economy.module.CoinsService;
@@ -20,6 +22,7 @@ public class EconomyAdminCommand {
     @Inject private ApiEconomyService economyService;
     @Inject private ApiUserService userService;
     @Inject private MessagesConfiguration messages;
+    @Inject private Injector injector;
 
     @Execute(route = "give_physical")
     public void giveCoin(@Arg Player player, @Arg Coin coin) {
@@ -58,5 +61,10 @@ public class EconomyAdminCommand {
     @Execute(route = "set")
     public void set(@Arg Player player, @Arg Integer value) {
 
+    }
+
+    @Execute(route = "reload")
+    public void reload(CommandSender sender) {
+        this.injector.createInstance(ConfigurationService.class).reload();
     }
 }
