@@ -1,9 +1,9 @@
-package net.exotia.plugins.economy.inventory_util.providers.bank.deposit;
+package net.exotia.plugins.economy.inventory.providers.bank.deposit;
 
 import eu.okaeri.configs.OkaeriConfig;
 import lombok.Getter;
-import net.exotia.plugins.economy.inventory_util.BaseItem;
-import net.exotia.plugins.economy.inventory_util.InventoryConfiguration;
+import net.exotia.plugins.economy.inventory.BaseItem;
+import net.exotia.plugins.economy.inventory.InventoryConfiguration;
 import net.exotia.plugins.economy.utils.ArrayUtils;
 import net.exotia.plugins.economy.utils.ItemCreator;
 import org.bukkit.Material;

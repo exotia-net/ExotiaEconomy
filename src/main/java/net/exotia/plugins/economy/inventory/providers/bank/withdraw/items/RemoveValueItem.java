@@ -1,11 +1,9 @@
-package net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.items;
+package net.exotia.plugins.economy.inventory.providers.bank.withdraw.items;
 
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
-import net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
-import net.exotia.plugins.economy.utils.ItemCreator;
+import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -47,7 +45,7 @@ public class RemoveValueItem extends AbstractItem {
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
         int totalValue = this.acceptWithdrawItem.getValue() - this.value;
         if (totalValue <= 0) {
-            this.showError(event.getSlot(), new ItemCreator(Material.BARRIER).title("&cMinimalna kwota do wyplacenia to 1").build());
+            this.showError(event.getSlot(), this.inventoryConfiguration.getErrorItem());
             return;
         }
         this.acceptWithdrawItem.updateItem(totalValue);

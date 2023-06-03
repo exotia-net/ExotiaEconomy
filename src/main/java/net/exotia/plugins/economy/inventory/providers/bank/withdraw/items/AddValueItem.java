@@ -1,15 +1,9 @@
-package net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.items;
+package net.exotia.plugins.economy.inventory.providers.bank.withdraw.items;
 
-import dev.triumphteam.gui.guis.GuiItem;
-import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
-import net.exotia.bridge.api.user.ApiUser;
-import net.exotia.bridge.api.user.ApiUserService;
-import net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
-import net.exotia.plugins.economy.utils.ItemCreator;
+import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -52,7 +46,7 @@ public class AddValueItem extends AbstractItem {
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
        int totalValue = this.acceptWithdrawItem.getValue() + this.value;
         if (!this.economyService.has(player.getUniqueId(), totalValue)) {
-            this.showError(event.getSlot(), new ItemCreator(Material.BARRIER).title("&cNie masz wystarczajaco pieniedzy!").build());
+            this.showError(event.getSlot(), this.inventoryConfiguration.getNoEnoughCoins());
             return;
         }
         this.acceptWithdrawItem.updateItem(totalValue);

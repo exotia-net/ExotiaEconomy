@@ -1,12 +1,12 @@
-package net.exotia.plugins.economy.inventory_util;
+package net.exotia.plugins.economy.inventory;
 
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.injector.annotation.PostConstruct;
 import net.exotia.plugins.economy.factory.ConfigurationFactory;
-import net.exotia.plugins.economy.inventory_util.providers.bank.BankInventoryConfiguration;
-import net.exotia.plugins.economy.inventory_util.providers.bank.deposit.BankDepositInventoryConfiguration;
-import net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
+import net.exotia.plugins.economy.inventory.providers.bank.BankInventoryConfiguration;
+import net.exotia.plugins.economy.inventory.providers.bank.deposit.BankDepositInventoryConfiguration;
+import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
 import org.bukkit.entity.Player;
 import xyz.xenondevs.invui.window.Window;
 

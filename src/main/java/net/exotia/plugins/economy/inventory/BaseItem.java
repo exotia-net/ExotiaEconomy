@@ -1,4 +1,4 @@
-package net.exotia.plugins.economy.inventory_util;
+package net.exotia.plugins.economy.inventory;
 
 import eu.okaeri.configs.OkaeriConfig;
 import lombok.AllArgsConstructor;

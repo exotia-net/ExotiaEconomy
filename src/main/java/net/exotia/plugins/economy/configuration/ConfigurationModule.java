@@ -7,9 +7,6 @@ import net.exotia.plugins.economy.configuration.files.CoinsConfiguration;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.configuration.files.PluginConfiguration;
 import net.exotia.plugins.economy.factory.ConfigurationFactory;
-import net.exotia.plugins.economy.inventory.bank.deposit.BankDepositConfiguration;
-import net.exotia.plugins.economy.inventory.bank.withdraw.BankWithdrawConfiguration;
-import net.exotia.plugins.economy.inventory.exchange.ExchangeInventoryConfiguration;
 import org.bukkit.plugin.Plugin;
 
 public class ConfigurationModule {
@@ -24,9 +21,5 @@ public class ConfigurationModule {
         configuration.injectSections(this.injector);
         this.injector.registerInjectable(configurationFactory.produce(CoinsConfiguration.class, "coins.yml"));
         this.injector.registerInjectable(configurationFactory.produce(MessagesConfiguration.class, "messages.yml"));
-
-        this.injector.registerInjectable(configurationFactory.produce(BankWithdrawConfiguration.class, "inventories/bankWithdraw.yml"));
-        this.injector.registerInjectable(configurationFactory.produce(BankDepositConfiguration.class, "inventories/bankDeposit.yml"));
-        this.injector.registerInjectable(configurationFactory.produce(ExchangeInventoryConfiguration.class, "inventories/exchange.yml"));
     }
 }

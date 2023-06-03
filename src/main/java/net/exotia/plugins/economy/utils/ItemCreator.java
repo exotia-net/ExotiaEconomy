@@ -19,6 +19,7 @@ public class ItemCreator {
     private int amount;
     private String displayName;
     private UUID uuid;
+    private int customModelData;
 
     public ItemCreator(Material material, int amount) {
         this.displayName = null;
@@ -35,6 +36,10 @@ public class ItemCreator {
         this(material, 1);
     }
 
+    public ItemCreator modelData(int customModelData) {
+        this.customModelData = customModelData;
+        return this;
+    }
     public ItemCreator title(String title) {
         this.displayName = MessageUtil.implementColors(title);
         return this;
@@ -102,6 +107,9 @@ public class ItemCreator {
         if (itemMeta != null && this.hideAttributes) {
             itemMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ATTRIBUTES});
             itemMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
+        }
+        if (itemMeta != null && this.customModelData != 0) {
+            itemMeta.setCustomModelData(this.customModelData);
         }
         itemStack.setItemMeta(itemMeta);
         itemStack.addUnsafeEnchantments(this.enchantments);

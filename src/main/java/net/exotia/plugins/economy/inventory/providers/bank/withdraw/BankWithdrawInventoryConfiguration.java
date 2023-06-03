@@ -1,10 +1,10 @@
-package net.exotia.plugins.economy.inventory_util.providers.bank.withdraw;
+package net.exotia.plugins.economy.inventory.providers.bank.withdraw;
 
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
 import lombok.Getter;
-import net.exotia.plugins.economy.inventory_util.BaseItem;
-import net.exotia.plugins.economy.inventory_util.InventoryConfiguration;
+import net.exotia.plugins.economy.inventory.BaseItem;
+import net.exotia.plugins.economy.inventory.InventoryConfiguration;
 import net.exotia.plugins.economy.utils.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -6,7 +6,7 @@ import net.exotia.bridge.api.ExotiaBridgeInstance;
 import net.exotia.bridge.api.ExotiaBridgeProvider;
 import net.exotia.plugins.economy.commands.CommandsModule;
 import net.exotia.plugins.economy.configuration.ConfigurationModule;
-import net.exotia.plugins.economy.inventory_util.InventoryOpener;
+import net.exotia.plugins.economy.inventory.InventoryOpener;
 import net.exotia.plugins.economy.listeners.PlaceCoinListener;
 import net.exotia.plugins.economy.module.CoinsService;
 import org.bukkit.plugin.java.JavaPlugin;

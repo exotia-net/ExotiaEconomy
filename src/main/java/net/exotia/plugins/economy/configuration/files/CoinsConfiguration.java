@@ -17,11 +17,11 @@ public class CoinsConfiguration extends OkaeriConfig {
 
     private List<Coin> loadCoins() {
         List<Coin> list = new ArrayList<>();
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (1)").build(), 1));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (1) test").modelData(45001).build(), 1));
         list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (5)").build(), 5));
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (10)").build(), 10));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (10)").modelData(45002).build(), 10));
         list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (50)").build(), 50));
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (100)").build(), 100));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (100)").modelData(45003).build(), 100));
         return list;
     }
     private Coin setupCoin(ItemStack itemStack, int value) {

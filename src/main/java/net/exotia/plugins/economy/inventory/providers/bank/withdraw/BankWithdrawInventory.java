@@ -1,13 +1,13 @@
-package net.exotia.plugins.economy.inventory_util.providers.bank.withdraw;
+package net.exotia.plugins.economy.inventory.providers.bank.withdraw;
 
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
-import net.exotia.plugins.economy.inventory_util.InventoryConfiguration;
-import net.exotia.plugins.economy.inventory_util.InventoryOpener;
-import net.exotia.plugins.economy.inventory_util.OpenableInventory;
-import net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.items.AcceptWithdrawItem;
-import net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.items.AddValueItem;
-import net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.items.RemoveValueItem;
+import net.exotia.plugins.economy.inventory.InventoryConfiguration;
+import net.exotia.plugins.economy.inventory.InventoryOpener;
+import net.exotia.plugins.economy.inventory.OpenableInventory;
+import net.exotia.plugins.economy.inventory.providers.bank.withdraw.items.AcceptWithdrawItem;
+import net.exotia.plugins.economy.inventory.providers.bank.withdraw.items.AddValueItem;
+import net.exotia.plugins.economy.inventory.providers.bank.withdraw.items.RemoveValueItem;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;

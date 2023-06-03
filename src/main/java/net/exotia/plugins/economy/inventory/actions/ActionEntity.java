@@ -1,4 +1,4 @@
-package net.exotia.plugins.economy.inventory_util.actions;
+package net.exotia.plugins.economy.inventory.actions;
 
 import lombok.Getter;
 

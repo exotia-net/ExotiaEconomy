@@ -1,7 +1,6 @@
-package net.exotia.plugins.economy.inventory_util;
+package net.exotia.plugins.economy.inventory;
 
 import java.util.HashMap;
-import java.util.List;
 
 public interface InventoryConfiguration {
     String[] getPattern();

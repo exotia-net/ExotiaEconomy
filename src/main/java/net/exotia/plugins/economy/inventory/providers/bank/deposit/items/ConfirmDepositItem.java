@@ -1,9 +1,9 @@
-package net.exotia.plugins.economy.inventory_util.providers.bank.deposit.items;
+package net.exotia.plugins.economy.inventory.providers.bank.deposit.items;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
-import net.exotia.plugins.economy.inventory_util.providers.bank.deposit.BankDepositInventoryConfiguration;
+import net.exotia.plugins.economy.inventory.providers.bank.deposit.BankDepositInventoryConfiguration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
-
 import java.util.Arrays;
 
 public class ConfirmDepositItem extends AbstractItem {
@@ -38,6 +37,7 @@ public class ConfirmDepositItem extends AbstractItem {
             int currency = nbtItem.getInteger("coinValue");
             return currency*item.getAmount();
         }).mapToInt(i -> i).sum();
+        if (total <= 0) return;
         this.economyService.give(player.getUniqueId(), total);
         this.economyService.save(player.getUniqueId());
     }
