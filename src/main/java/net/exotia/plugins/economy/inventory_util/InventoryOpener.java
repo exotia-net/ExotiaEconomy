@@ -5,6 +5,8 @@ import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.injector.annotation.PostConstruct;
 import net.exotia.plugins.economy.factory.ConfigurationFactory;
 import net.exotia.plugins.economy.inventory_util.providers.bank.BankInventoryConfiguration;
+import net.exotia.plugins.economy.inventory_util.providers.bank.deposit.BankDepositInventoryConfiguration;
+import net.exotia.plugins.economy.inventory_util.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
 import org.bukkit.entity.Player;
 import xyz.xenondevs.invui.window.Window;
 
@@ -17,6 +19,12 @@ public class InventoryOpener {
         // TODO: Tu maja byc rejestrowane pliki konfiguracyjne
         this.injector.registerInjectable(
                 this.configurationFactory.produce(BankInventoryConfiguration.class, "inventories/bank_inventory.yml")
+        );
+        this.injector.registerInjectable(
+                this.configurationFactory.produce(BankWithdrawInventoryConfiguration.class, "inventories/bank_withdraw_inventory.yml")
+        );
+        this.injector.registerInjectable(
+                this.configurationFactory.produce(BankDepositInventoryConfiguration.class, "inventories/bank_deposit_inventory.yml")
         );
     }
 
