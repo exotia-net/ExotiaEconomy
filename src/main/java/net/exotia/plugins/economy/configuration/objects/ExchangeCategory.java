@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Material;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
-public class ExchangeItem extends OkaeriConfig {
-    private int count;
-    private int price;
-    private Material material;
+public class ExchangeCategory extends OkaeriConfig {
+    private String name;
+    private Material icon;
+    private List<ExchangeItem> items;
 }

@@ -4,6 +4,7 @@ import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.injector.annotation.PostConstruct;
 import net.exotia.plugins.economy.configuration.files.CoinsConfiguration;
+import net.exotia.plugins.economy.configuration.files.ExchangeConfiguration;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.configuration.files.PluginConfiguration;
 import net.exotia.plugins.economy.factory.ConfigurationFactory;
@@ -21,5 +22,6 @@ public class ConfigurationModule {
         configuration.injectSections(this.injector);
         this.injector.registerInjectable(configurationFactory.produce(CoinsConfiguration.class, "coins.yml"));
         this.injector.registerInjectable(configurationFactory.produce(MessagesConfiguration.class, "messages.yml"));
+        this.injector.registerInjectable(configurationFactory.produce(ExchangeConfiguration.class, "exchange.yml"));
     }
 }
