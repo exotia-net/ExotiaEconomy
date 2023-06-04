@@ -22,7 +22,7 @@ public class ExchangeCategoryInventoryConfiguration extends OkaeriConfig impleme
             "# # # # # # # # #",
             "# x x x x x x x #",
             "# x x x x x x x #",
-            "# # < # S # > # #"
+            "# # < # R # > # #"
     );
     public HashMap<Character, BaseItem> items = this.setupItems();
 
@@ -65,6 +65,9 @@ public class ExchangeCategoryInventoryConfiguration extends OkaeriConfig impleme
         HashMap<Character, BaseItem> items = new HashMap<>();
         items.put('#', new BaseItem(
                 new ItemCreator(Material.BLACK_STAINED_GLASS_PANE).title("&8").build(), null
+        ));
+        items.put('R', new BaseItem(
+                new ItemCreator(Material.RED_SHULKER_BOX).title("&c&lPOWROT").build(), null
         ));
         return items;
     }
