@@ -6,6 +6,7 @@ import dev.rollczi.litecommands.command.route.Route;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
+import net.exotia.plugins.economy.configuration.files.PluginConfiguration;
 import net.exotia.plugins.economy.module.CoinsService;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ public class PayCommand {
     @Inject private CoinsService coinsService;
     @Inject private ApiEconomyService economyService;
     @Inject private MessagesConfiguration messages;
+    @Inject private PluginConfiguration configuration;
 
     @Execute
     public void pay(Player sender, @Arg Player target, @Arg Integer value) {
@@ -22,8 +24,8 @@ public class PayCommand {
             MessageUtil.send(sender, "&8&l>> &cNie mozesz przelac pieniedzy sam sobie!");
             return;
         }
-        if (value <= 0) {
-            MessageUtil.send(sender, "&8&l>> &cKwota musi byc wieksza od 0!");
+        if (value < this.configuration.getMinTransferAmount()) {
+            MessageUtil.send(sender, "&8&l>> &cKwota musi byc wieksza badz rowna 10!");
             return;
         }
         if (!this.economyService.has(sender.getUniqueId(), value)) {
@@ -32,13 +34,15 @@ public class PayCommand {
         }
 
         this.economyService.take(sender.getUniqueId(), value);
-        this.economyService.give(target.getUniqueId(), value);
+        double doubleValue = (double) value;
+        double total = doubleValue - ((doubleValue*this.configuration.getTransferFee())/100);
+        this.economyService.give(target.getUniqueId(), (int) total);
         MessageUtil.send(sender, "&8&l>> &aPrzelales {value} na konto gracza {player_name}"
                 .replace("{value}", String.valueOf(value))
                 .replace("{player_name}", target.getName())
         );
         MessageUtil.send(target, "&8&l>> &aOtrzymales {value} od gracza {player_name}"
-                .replace("{value}", String.valueOf(value))
+                .replace("{value}", String.valueOf((int)total))
                 .replace("{player_name}", sender.getName())
         );
         this.economyService.save(sender.getUniqueId());

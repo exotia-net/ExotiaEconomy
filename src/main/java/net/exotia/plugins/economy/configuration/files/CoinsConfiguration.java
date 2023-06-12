@@ -17,17 +17,17 @@ public class CoinsConfiguration extends OkaeriConfig {
 
     private List<Coin> loadCoins() {
         List<Coin> list = new ArrayList<>();
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (1) test").modelData(45001).build(), 1));
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (5)").build(), 5));
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (10)").modelData(45002).build(), 10));
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (50)").build(), 50));
-        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (100)").modelData(45003).build(), 100));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (1) test").build(), 1, "ekonomia_moneta_brazowa"));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (5)").build(), 5, "ekonomia_moneta_brazowa"));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (10)").build(), 10, "ekonomia_moneta_srebrna"));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (50)").build(), 50, "ekonomia_moneta_srebrna"));
+        list.add(this.setupCoin(new ItemCreator(Material.SUNFLOWER).title("&6Moneta (100)").build(), 100, "ekonomia_moneta_zlota"));
         return list;
     }
-    private Coin setupCoin(ItemStack itemStack, int value) {
+    private Coin setupCoin(ItemStack itemStack, int value, String oraxenBlockId) {
         NBTItem nbtItem = new NBTItem(itemStack);
         nbtItem.setBoolean("isCoin", true);
         nbtItem.setInteger("coinValue", value);
-        return Coin.builder().value(value).itemStack(nbtItem.getItem()).build();
+        return Coin.builder().value(value).itemStack(nbtItem.getItem()).oraxenId(oraxenBlockId).build();
     }
 }

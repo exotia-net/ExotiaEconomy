@@ -2,7 +2,7 @@ package net.exotia.plugins.economy.module;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import eu.okaeri.injector.annotation.Inject;
-import net.exotia.bridge.api.user.ApiUserService;
+import io.th0rgal.oraxen.api.OraxenItems;
 import net.exotia.plugins.economy.configuration.files.CoinsConfiguration;
 import net.exotia.plugins.economy.configuration.objects.Coin;
 import org.bukkit.entity.Player;
@@ -14,7 +14,6 @@ import java.util.List;
 
 public class CoinsService {
     @Inject private CoinsConfiguration coinsConfiguration;
-    @Inject private ApiUserService userService;
 
     public Coin findCoin(Integer value) {
         return this.coinsConfiguration.getCoins().stream().filter(coin -> coin.getValue() == value).findFirst().orElse(null);
@@ -29,11 +28,12 @@ public class CoinsService {
     }
 
     public ItemStack createCoin(Coin coin) {
-        NBTItem nbtItem = new NBTItem(coin.getItemStack());
+        NBTItem nbtItem = new NBTItem(OraxenItems.getItemById(coin.getOraxenId()).build());
         nbtItem.setBoolean("isCoin", true);
         nbtItem.setInteger("coinValue", coin.getValue());
         return nbtItem.getItem();
     }
+
     public int getPlayerPhysicalCoins(Player player) {
         int totalAmount = 0;
         for (ItemStack content : player.getInventory().getContents()) {

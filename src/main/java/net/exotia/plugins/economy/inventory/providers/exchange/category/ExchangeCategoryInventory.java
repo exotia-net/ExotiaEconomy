@@ -41,10 +41,9 @@ public class ExchangeCategoryInventory implements OpenableInventory {
                 .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
                 .addIngredient('>', new NextPageItem(this.inventoryConfiguration))
                 .addIngredient('<', new PreviousPageItem(this.inventoryConfiguration))
-                .setContent(
-                        this.exchangeConfiguration.getCategories().get(params[0]).getItems().stream()
-                                .map(item -> this.injector.createInstance(ExchangeViewItem.class).parameters(item))
-                                .collect(Collectors.toList())
+                .setContent(this.exchangeConfiguration.getCategories().get(params[0]).getItems().stream()
+                        .map(item -> this.injector.createInstance(ExchangeViewItem.class).parameters(item))
+                        .collect(Collectors.toList())
                 );
         this.inventoryConfiguration.getItems().forEach((character, baseItem) -> {
             if (character == 'R') {

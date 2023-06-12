@@ -33,6 +33,8 @@ public class ExchangeCategoryInventoryConfiguration extends OkaeriConfig impleme
     private ItemStack nextPageItem = new ItemCreator(Material.ARROW).title("&8&l>> &aNastepna strona").build();
     private ItemStack previousPageItem = new ItemCreator(Material.ARROW).title("&8&l>> &cPoprzednia strona").build();
 
+    private ItemStack itemsNotFound = new ItemCreator(Material.BARRIER).title("&cNie masz takich przedmiotow").build();
+
     @Override
     public String[] getPattern() {
         return this.pattern.toArray(new String[]{});

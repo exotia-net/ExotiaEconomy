@@ -1,11 +1,13 @@
 package net.exotia.plugins.economy.inventory.providers.exchange;
 
+import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.plugins.economy.configuration.files.ExchangeConfiguration;
 import net.exotia.plugins.economy.inventory.InventoryConfiguration;
 import net.exotia.plugins.economy.inventory.InventoryOpener;
 import net.exotia.plugins.economy.inventory.OpenableInventory;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventory;
+import net.exotia.plugins.economy.inventory.providers.exchange.items.SellManyItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,6 +22,7 @@ import xyz.xenondevs.invui.item.impl.SimpleItem;
 public class ExchangeInventory implements OpenableInventory {
     @Inject private ExchangeInventoryConfiguration inventoryConfiguration;
     @Inject private ExchangeConfiguration exchangeConfiguration;
+    @Inject private Injector injector;
 
     @Override
     public Gui createGui(InventoryOpener inventoryOpener, String... params) {
@@ -29,6 +32,8 @@ public class ExchangeInventory implements OpenableInventory {
         this.inventoryConfiguration.getItems().forEach((character, baseItem) -> {
             builder.addIngredient(character, new SimpleItem(new ItemBuilder(baseItem.getItemStack())));
         });
+        builder.addIngredient('S', this.injector.createInstance(SellManyItem.class));
+
         Gui gui = builder.build();
         this.exchangeConfiguration.getCategories().forEach((key, category) -> {
             gui.addItems(new AbstractItem() {

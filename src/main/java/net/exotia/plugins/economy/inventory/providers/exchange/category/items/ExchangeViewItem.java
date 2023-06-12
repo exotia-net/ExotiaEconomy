@@ -5,21 +5,25 @@ import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.configuration.objects.ExchangeItem;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventoryConfiguration;
 import net.exotia.plugins.economy.utils.MessageUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ExchangeViewItem extends AbstractItem {
     @Inject private ExchangeCategoryInventoryConfiguration inventoryConfiguration;
     @Inject private ApiEconomyService economyService;
+    @Inject private Plugin plugin;
 
     private ExchangeItem exchangeItem;
 
@@ -41,7 +45,7 @@ public class ExchangeViewItem extends AbstractItem {
         }).map(ItemStack::getAmount).mapToInt(i -> i).sum();
 
         if (itemsCount <= 0) {
-            MessageUtil.send(player, "&8&l>> &cNie masz takiego itemu!");
+            this.showError(event, this.inventoryConfiguration.getItemsNotFound());
             return;
         }
 
@@ -54,5 +58,12 @@ public class ExchangeViewItem extends AbstractItem {
                 .replace("{item_name}", this.exchangeItem.getMaterial().name())
                 .replace("{price}", String.valueOf(totalCost))
         );
+    }
+
+    private void showError(InventoryClickEvent event, ItemStack itemStack) {
+        event.setCurrentItem(itemStack);
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
+            event.setCurrentItem(this.getItemProvider().get());
+        }, 20L);
     }
 }

@@ -25,7 +25,7 @@ public class ExchangeInventoryConfiguration extends OkaeriConfig implements Inve
     public HashMap<Character, BaseItem> items = this.setupItems();
 
     private ItemStack categoryView = new ItemCreator(Material.BEDROCK).title("&7{name}").lore(List.of("", " &8&l>> &7Kliknij aby przejsc")).build();
-
+    private ItemStack sellManyItem = new ItemCreator(Material.GOLD_BLOCK).title("&6&lSPRZEDAJ WIELE").build();
 
     @Override
     public String[] getPattern() {

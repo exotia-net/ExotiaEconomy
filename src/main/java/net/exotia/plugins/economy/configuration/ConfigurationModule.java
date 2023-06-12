@@ -20,6 +20,7 @@ public class ConfigurationModule {
         this.injector.registerInjectable(configurationFactory);
         PluginConfiguration configuration = configurationFactory.produce(PluginConfiguration.class, "configuration.yml");
         configuration.injectSections(this.injector);
+        this.injector.registerInjectable(configuration);
         this.injector.registerInjectable(configurationFactory.produce(CoinsConfiguration.class, "coins.yml"));
         this.injector.registerInjectable(configurationFactory.produce(MessagesConfiguration.class, "messages.yml"));
         this.injector.registerInjectable(configurationFactory.produce(ExchangeConfiguration.class, "exchange.yml"));
