@@ -2,6 +2,7 @@ package net.exotia.plugins.economy.commands.execute.admin;
 
 import dev.rollczi.litecommands.argument.Arg;
 import dev.rollczi.litecommands.command.execute.Execute;
+import dev.rollczi.litecommands.command.permission.Permission;
 import dev.rollczi.litecommands.command.route.Route;
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
@@ -15,8 +16,11 @@ import net.exotia.plugins.economy.module.CoinsService;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 
 @Route(name = "ecoadmin")
+@Permission("exotia.economy.admin")
 public class EconomyAdminCommand {
     @Inject private CoinsService coinsService;
     @Inject private ApiEconomyService economyService;
@@ -33,21 +37,21 @@ public class EconomyAdminCommand {
     public void giveMoney(CommandSender sender, @Arg Player player, @Arg Integer value) {
         this.economyService.give(player.getUniqueId(), value);
         this.economyService.save(player.getUniqueId());
-        MessageUtil.send(sender, "&8&l>> &aDodałes {value} do konta gracza {player_name}"
+        MessageUtil.send(sender, this.messages.getAdminGiveMoney()
                 .replace("{value}", String.valueOf(value))
                 .replace("{player_name}", player.getName())
         );
-        MessageUtil.send(player, "&8&l>> &aNa twoje konto wplynelo {value}!".replace("{value}", String.valueOf(value)));
+        MessageUtil.send(player, this.messages.getPlayerReceivedMoneyFromServer().replace("{value}", String.valueOf(value)));
     }
     @Execute(route = "take")
     public void takeMoney(CommandSender sender, @Arg Player player, @Arg Integer value) {
         this.economyService.take(player.getUniqueId(), value);
         this.economyService.save(player.getUniqueId());
-        MessageUtil.send(sender, "&8&l>> &aZabrales {value} z konta gracza {player_name}"
+        MessageUtil.send(sender, this.messages.getAdminTakeMoney()
                 .replace("{value}", String.valueOf(value))
                 .replace("{player_name}", player.getName())
         );
-        MessageUtil.send(player, "&8&l>> &aZ twojego konta zostalo zabrane {value}!".replace("{value}", String.valueOf(value)));
+        MessageUtil.send(player, this.messages.getAdminTookMoney().replace("{value}", String.valueOf(value)));
     }
     @Execute(route = "balance")
     public void balance(@Arg Player player) {

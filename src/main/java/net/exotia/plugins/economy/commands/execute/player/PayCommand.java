@@ -21,15 +21,17 @@ public class PayCommand {
     @Execute
     public void pay(Player sender, @Arg Player target, @Arg Integer value) {
         if (sender.equals(target)) {
-            MessageUtil.send(sender, "&8&l>> &cNie mozesz przelac pieniedzy sam sobie!");
+            MessageUtil.send(sender, this.messages.getYouCanNotTransferMoneySelf());
             return;
         }
         if (value < this.configuration.getMinTransferAmount()) {
-            MessageUtil.send(sender, "&8&l>> &cKwota musi byc wieksza badz rowna 10!");
+            MessageUtil.send(sender, this.messages.getTooSmallAmount()
+                    .replace("{min}", String.valueOf(this.configuration.getMinTransferAmount()))
+            );
             return;
         }
         if (!this.economyService.has(sender.getUniqueId(), value)) {
-            MessageUtil.send(sender, "&8&l>> &cNie masz tyle pieniedzy!");
+            MessageUtil.send(sender, this.messages.getYouDontHaveEnoughMoney());
             return;
         }
 
@@ -37,11 +39,11 @@ public class PayCommand {
         double doubleValue = (double) value;
         double total = doubleValue - ((doubleValue*this.configuration.getTransferFee())/100);
         this.economyService.give(target.getUniqueId(), (int) total);
-        MessageUtil.send(sender, "&8&l>> &aPrzelales {value} na konto gracza {player_name}"
+        MessageUtil.send(sender, this.messages.getSuccessfullyTransferred()
                 .replace("{value}", String.valueOf(value))
                 .replace("{player_name}", target.getName())
         );
-        MessageUtil.send(target, "&8&l>> &aOtrzymales {value} od gracza {player_name}"
+        MessageUtil.send(target, this.messages.getReceivedTransfer()
                 .replace("{value}", String.valueOf((int)total))
                 .replace("{player_name}", sender.getName())
         );

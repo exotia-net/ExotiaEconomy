@@ -15,6 +15,7 @@ import net.exotia.plugins.economy.commands.execute.player.ExchangeCommand;
 import net.exotia.plugins.economy.commands.execute.player.PayCommand;
 import net.exotia.plugins.economy.commands.handler.InvalidCommandUsageHandler;
 import net.exotia.plugins.economy.commands.handler.UnauthorizedCommandHandler;
+import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.configuration.files.sections.CommandsSection;
 import net.exotia.plugins.economy.configuration.objects.Coin;
 import net.exotia.plugins.economy.utils.MessageUtil;
@@ -25,12 +26,13 @@ public class CommandsModule {
     @Inject private Plugin plugin;
     @Inject private Injector injector;
     @Inject private CommandsSection commandsSection;
+    @Inject private MessagesConfiguration messages;
 
     @PostConstruct
     public void onConstruct() {
         var builder = LiteBukkitFactory.builder(this.plugin.getServer(), this.plugin.getName())
-                .argument(Player.class, new BukkitPlayerArgument<>(this.plugin.getServer(), MessageUtil.implementColors("&8&l>> &cTen gracz jest offline!")))
-                .contextualBind(Player.class, new BukkitOnlyPlayerContextual<>(MessageUtil.implementColors("&8&l>> &cTa komenda jest tylko dla gracza!")))
+                .argument(Player.class, new BukkitPlayerArgument<>(this.plugin.getServer(), MessageUtil.implementColors(this.messages.getPlayerIsOffline())))
+                .contextualBind(Player.class, new BukkitOnlyPlayerContextual<>(MessageUtil.implementColors(this.messages.getOnlyForPlayer())))
 
                 .argument(Coin.class, this.injector.createInstance(CoinArgument.class))
                 .argument(Integer.class, this.injector.createInstance(IntegerArgument.class))
@@ -45,8 +47,8 @@ public class CommandsModule {
                         this.injector.createInstance(ExchangeCommand.class)
                 )
 
-                .invalidUsageHandler(new InvalidCommandUsageHandler())
-                .permissionHandler(new UnauthorizedCommandHandler());
+                .invalidUsageHandler(this.injector.createInstance(InvalidCommandUsageHandler.class))
+                .permissionHandler(this.injector.createInstance(UnauthorizedCommandHandler.class));
 
         this.commandsSection.getEconomyCommands().forEach((baseCommand, command) -> {
             builder.commandEditor(baseCommand, (editor) -> editor.name(command));

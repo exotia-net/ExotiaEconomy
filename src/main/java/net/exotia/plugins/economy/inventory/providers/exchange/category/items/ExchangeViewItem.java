@@ -2,6 +2,7 @@ package net.exotia.plugins.economy.inventory.providers.exchange.category.items;
 
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
+import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.configuration.objects.ExchangeItem;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventoryConfiguration;
 import net.exotia.plugins.economy.utils.MessageUtil;
@@ -24,6 +25,7 @@ public class ExchangeViewItem extends AbstractItem {
     @Inject private ExchangeCategoryInventoryConfiguration inventoryConfiguration;
     @Inject private ApiEconomyService economyService;
     @Inject private Plugin plugin;
+    @Inject private MessagesConfiguration messages;
 
     private ExchangeItem exchangeItem;
 
@@ -53,7 +55,7 @@ public class ExchangeViewItem extends AbstractItem {
         player.getInventory().remove(this.exchangeItem.getMaterial());
         this.economyService.give(player.getUniqueId(), totalCost);
         this.economyService.save(player.getUniqueId());
-        MessageUtil.send(player, "&8&l>> &aSprzedales {count} {item_name} za {price}"
+        MessageUtil.send(player, this.messages.getYouSoldItem()
                 .replace("{count}", String.valueOf(itemsCount))
                 .replace("{item_name}", this.exchangeItem.getMaterial().name())
                 .replace("{price}", String.valueOf(totalCost))

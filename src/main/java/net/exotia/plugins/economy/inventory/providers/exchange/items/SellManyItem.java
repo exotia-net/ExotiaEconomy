@@ -3,6 +3,7 @@ package net.exotia.plugins.economy.inventory.providers.exchange.items;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.configuration.files.ExchangeConfiguration;
+import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.inventory.providers.exchange.ExchangeInventoryConfiguration;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.Material;
@@ -22,6 +23,7 @@ public class SellManyItem extends AbstractItem {
     @Inject private ExchangeInventoryConfiguration inventoryConfiguration;
     @Inject private ExchangeConfiguration exchangeConfiguration;
     @Inject private ApiEconomyService economyService;
+    @Inject private MessagesConfiguration messages;
 
     @Override
     public ItemProvider getItemProvider() {
@@ -45,7 +47,7 @@ public class SellManyItem extends AbstractItem {
                 price.addAndGet(totalCost);
             });
         });
-        MessageUtil.send(player, "&8&l>> &aSprzedales {count} przedmiotow za laczna kwote za {price}"
+        MessageUtil.send(player, this.messages.getYouSoldItems()
                 .replace("{count}", String.valueOf(itemsCount.get()))
                 .replace("{price}", String.valueOf(price.get()))
         );
