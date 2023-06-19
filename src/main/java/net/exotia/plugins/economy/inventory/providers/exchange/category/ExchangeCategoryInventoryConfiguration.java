@@ -2,11 +2,11 @@ package net.exotia.plugins.economy.inventory.providers.exchange.category;
 
 import eu.okaeri.configs.OkaeriConfig;
 import lombok.Getter;
-import net.exotia.plugins.economy.configuration.objects.ExchangeCategory;
 import net.exotia.plugins.economy.configuration.objects.ExchangeItem;
 import net.exotia.plugins.economy.inventory.BaseItem;
 import net.exotia.plugins.economy.inventory.InventoryConfiguration;
-import net.exotia.plugins.economy.utils.ItemCreator;
+import net.exotia.plugins.economy.utils.items.ItemCreator;
+import net.exotia.plugins.economy.utils.items.YourItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -26,14 +26,14 @@ public class ExchangeCategoryInventoryConfiguration extends OkaeriConfig impleme
     );
     public HashMap<Character, BaseItem> items = this.setupItems();
 
-    private ItemStack itemView = new ItemCreator(Material.BEDROCK).title("&7{name}").lore(
+    private YourItem itemView = new ItemCreator(Material.BEDROCK).title("&7{name}").lore(
             List.of("", " &8&l>> &7Cena &a{price} x {amount}", " &8&l>> &7Kliknij aby sprzedac", "")
     ).build();
 
-    private ItemStack nextPageItem = new ItemCreator(Material.ARROW).title("&8&l>> &aNastepna strona").build();
-    private ItemStack previousPageItem = new ItemCreator(Material.ARROW).title("&8&l>> &cPoprzednia strona").build();
+    private YourItem nextPageItem = new ItemCreator(Material.ARROW).title("&8&l>> &aNastepna strona").build();
+    private YourItem previousPageItem = new ItemCreator(Material.ARROW).title("&8&l>> &cPoprzednia strona").build();
 
-    private ItemStack itemsNotFound = new ItemCreator(Material.BARRIER).title("&cNie masz takich przedmiotow").build();
+    private YourItem itemsNotFound = new ItemCreator(Material.BARRIER).title("&cNie masz takich przedmiotow").build();
 
     @Override
     public String[] getPattern() {
@@ -51,7 +51,7 @@ public class ExchangeCategoryInventoryConfiguration extends OkaeriConfig impleme
     }
 
     public ItemStack getItem(ExchangeItem exchangeItem) {
-        ItemStack itemStack = this.itemView.clone();
+        ItemStack itemStack = this.itemView.getItem().clone();
         itemStack.setType(exchangeItem.getMaterial());
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(meta.getDisplayName().replace("{name}", exchangeItem.getMaterial().name()));

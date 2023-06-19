@@ -12,6 +12,7 @@ import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdraw
 import net.exotia.plugins.economy.inventory.providers.exchange.ExchangeInventoryConfiguration;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventoryConfiguration;
 import org.bukkit.entity.Player;
+import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.window.Window;
 
 import java.util.ArrayList;
@@ -35,11 +36,15 @@ public class InventoryOpener {
 
     public void open(Player player, Class<? extends OpenableInventory> openableInventory, String... params) {
         OpenableInventory inventory = this.injector.createInstance(openableInventory);
+        Gui gui = inventory.createGui(this, params);
         Window window = Window.single()
                 .setViewer(player)
-                .setGui(inventory.createGui(this, params))
+                .setGui(gui)
                 .setTitle(inventory.getConfiguration().getTitle())
                 .build();
+        if (inventory.closeGuiHandler(player, this) != null) {
+            window.addCloseHandler(inventory.closeGuiHandler(player, this));
+        }
         window.open();
     }
     private void registerConfiguration(Class<? extends OkaeriConfig> configuration, String name, String category) {

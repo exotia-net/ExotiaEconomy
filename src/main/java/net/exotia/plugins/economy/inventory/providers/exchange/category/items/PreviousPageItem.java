@@ -14,6 +14,6 @@ public class PreviousPageItem extends PageItem {
     }
     @Override
     public ItemProvider getItemProvider(PagedGui<?> gui) {
-        return new ItemBuilder(this.inventoryConfiguration.getPreviousPageItem());
+        return new ItemBuilder(this.inventoryConfiguration.getPreviousPageItem().getItem());
     }
 }

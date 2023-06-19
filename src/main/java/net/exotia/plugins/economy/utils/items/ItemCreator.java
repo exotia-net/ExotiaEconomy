@@ -1,5 +1,6 @@
-package net.exotia.plugins.economy.utils;
+package net.exotia.plugins.economy.utils.items;
 
+import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -19,8 +20,12 @@ public class ItemCreator {
     private int amount;
     private String displayName;
     private UUID uuid;
-    private int customModelData;
+    private String oraxenId = null;
 
+    public ItemCreator(Material material) {
+        this.material = material;
+        this.amount = 1;
+    }
     public ItemCreator(Material material, int amount) {
         this.displayName = null;
         this.material = material;
@@ -32,14 +37,7 @@ public class ItemCreator {
         this.amount = 1;
         this.uuid = uuid;
     }
-    public ItemCreator(Material material) {
-        this(material, 1);
-    }
 
-    public ItemCreator modelData(int customModelData) {
-        this.customModelData = customModelData;
-        return this;
-    }
     public ItemCreator title(String title) {
         this.displayName = MessageUtil.implementColors(title);
         return this;
@@ -80,10 +78,14 @@ public class ItemCreator {
         this.hideAttributes = hideAttributes;
         return this;
     }
+    public ItemCreator oraxenId(String oraxenId) {
+        this.oraxenId = oraxenId;
+        return this;
+    }
     public boolean hasEnchantment(Enchantment enchantment) {
         return this.enchantments.containsKey(enchantment);
     }
-    public ItemStack build() {
+    public YourItem build() {
         Material material = this.material == null ? Material.BARRIER : this.material;
         ItemStack itemStack = new ItemStack(material, this.amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -91,7 +93,6 @@ public class ItemCreator {
         if (this.displayName != null && itemMeta != null) {
             itemMeta.setDisplayName(this.displayName);
         }
-
         if (material == Material.PLAYER_HEAD && this.uuid != null) {
             SkullMeta skullMeta = (SkullMeta)itemMeta;
             if (skullMeta != null) {
@@ -99,20 +100,16 @@ public class ItemCreator {
                 skullMeta.setOwningPlayer(offlinePlayer);
             }
         }
-
         if (itemMeta != null && !this.lore.isEmpty()) {
             itemMeta.setLore(this.lore);
         }
-
         if (itemMeta != null && this.hideAttributes) {
-            itemMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ATTRIBUTES});
-            itemMeta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
+            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
-        if (itemMeta != null && this.customModelData != 0) {
-            itemMeta.setCustomModelData(this.customModelData);
-        }
+
         itemStack.setItemMeta(itemMeta);
         itemStack.addUnsafeEnchantments(this.enchantments);
-        return itemStack;
+        return new YourItem(this.oraxenId, itemStack);
     }
 }

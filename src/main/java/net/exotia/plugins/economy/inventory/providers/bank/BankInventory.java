@@ -31,7 +31,7 @@ public class BankInventory implements OpenableInventory {
             builder.addIngredient(character, new AbstractItem() {
                 @Override
                 public ItemProvider getItemProvider() {
-                    return new ItemBuilder(baseItem.getItemStack());
+                    return new ItemBuilder(baseItem.getYourItem().getItem());
                 }
 
                 @Override
@@ -50,5 +50,10 @@ public class BankInventory implements OpenableInventory {
     @Override
     public InventoryConfiguration getConfiguration() {
         return this.inventoryConfiguration;
+    }
+
+    @Override
+    public Runnable closeGuiHandler(Player player, InventoryOpener inventoryOpener) {
+        return null;
     }
 }

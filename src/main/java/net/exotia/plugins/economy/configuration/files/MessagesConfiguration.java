@@ -31,4 +31,6 @@ public class MessagesConfiguration extends OkaeriConfig {
 
     private String youSoldItems = "&8&l>> &aSprzedales {count} przedmiotow za laczna kwote za {price}";
     private String youSoldItem = "&8&l>> &aSprzedales {count} {item_name} za {price}";
+
+    private String deposit = "&8&l>> &aWplaciles {count} monet na swoje konto!";
 }

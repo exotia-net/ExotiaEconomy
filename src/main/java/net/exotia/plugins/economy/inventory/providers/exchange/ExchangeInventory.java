@@ -30,7 +30,7 @@ public class ExchangeInventory implements OpenableInventory {
                 .setStructure(this.inventoryConfiguration.getPattern())
                 .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL);
         this.inventoryConfiguration.getItems().forEach((character, baseItem) -> {
-            builder.addIngredient(character, new SimpleItem(new ItemBuilder(baseItem.getItemStack())));
+            builder.addIngredient(character, new SimpleItem(new ItemBuilder(baseItem.getYourItem().getItem())));
         });
         builder.addIngredient('S', this.injector.createInstance(SellManyItem.class));
 
@@ -53,5 +53,10 @@ public class ExchangeInventory implements OpenableInventory {
     @Override
     public InventoryConfiguration getConfiguration() {
         return this.inventoryConfiguration;
+    }
+
+    @Override
+    public Runnable closeGuiHandler(Player player, InventoryOpener inventoryOpener) {
+        return null;
     }
 }

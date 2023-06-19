@@ -3,6 +3,7 @@ package net.exotia.plugins.economy.inventory.providers.bank.withdraw.items;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
+import net.exotia.plugins.economy.inventory.providers.bank.withdraw.CoinConfigEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -23,11 +24,13 @@ public class AddValueItem extends AbstractItem {
     @Inject private Plugin plugin;
 
     private int value;
+    private CoinConfigEntity coinConfigEntity;
     private Gui gui;
     private AcceptWithdrawItem acceptWithdrawItem;
 
-    public AddValueItem parameters(int value, Gui gui, AcceptWithdrawItem acceptWithdrawItem) {
-        this.value = value;
+    public AddValueItem parameters(CoinConfigEntity coinConfigEntity, Gui gui, AcceptWithdrawItem acceptWithdrawItem) {
+        this.value = coinConfigEntity.getValue();
+        this.coinConfigEntity = coinConfigEntity;
         this.gui = gui;
         this.acceptWithdrawItem = acceptWithdrawItem;
         return this;
@@ -35,7 +38,7 @@ public class AddValueItem extends AbstractItem {
 
     @Override
     public ItemProvider getItemProvider() {
-        ItemStack itemStack = this.inventoryConfiguration.getAddCoins().clone();
+        ItemStack itemStack = this.coinConfigEntity.getYourItem().getItem().clone();
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(meta.getDisplayName().replace("{amount}", String.valueOf(this.value)));
         itemStack.setItemMeta(meta);
@@ -46,7 +49,7 @@ public class AddValueItem extends AbstractItem {
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
        int totalValue = this.acceptWithdrawItem.getValue() + this.value;
         if (!this.economyService.has(player.getUniqueId(), totalValue)) {
-            this.showError(event.getSlot(), this.inventoryConfiguration.getNoEnoughCoins());
+            this.showError(event.getSlot(), this.inventoryConfiguration.getNoEnoughCoins().getItem());
             return;
         }
         this.acceptWithdrawItem.updateItem(totalValue);

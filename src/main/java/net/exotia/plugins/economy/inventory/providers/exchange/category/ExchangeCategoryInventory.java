@@ -50,7 +50,7 @@ public class ExchangeCategoryInventory implements OpenableInventory {
                 builder.addIngredient(character, new AbstractItem() {
                     @Override
                     public ItemProvider getItemProvider() {
-                        return new ItemBuilder(baseItem.getItemStack());
+                        return new ItemBuilder(baseItem.getYourItem().getItem());
                     }
                     @Override
                     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
@@ -60,7 +60,7 @@ public class ExchangeCategoryInventory implements OpenableInventory {
                 });
                 return;
             }
-            builder.addIngredient(character, new SimpleItem(new ItemBuilder(baseItem.getItemStack())));
+            builder.addIngredient(character, new SimpleItem(new ItemBuilder(baseItem.getYourItem().getItem())));
         });
         return builder.build();
     }
@@ -68,5 +68,10 @@ public class ExchangeCategoryInventory implements OpenableInventory {
     @Override
     public InventoryConfiguration getConfiguration() {
         return this.inventoryConfiguration;
+    }
+
+    @Override
+    public Runnable closeGuiHandler(Player player, InventoryOpener inventoryOpener) {
+        return null;
     }
 }

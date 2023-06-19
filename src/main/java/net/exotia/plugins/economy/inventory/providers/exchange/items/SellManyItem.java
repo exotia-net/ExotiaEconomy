@@ -27,7 +27,7 @@ public class SellManyItem extends AbstractItem {
 
     @Override
     public ItemProvider getItemProvider() {
-        return new ItemBuilder(this.inventoryConfiguration.getSellManyItem());
+        return new ItemBuilder(this.inventoryConfiguration.getSellManyItem().getItem());
     }
 
     @Override

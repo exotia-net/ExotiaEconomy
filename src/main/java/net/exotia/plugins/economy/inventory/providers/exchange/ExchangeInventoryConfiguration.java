@@ -5,12 +5,12 @@ import lombok.Getter;
 import net.exotia.plugins.economy.configuration.objects.ExchangeCategory;
 import net.exotia.plugins.economy.inventory.BaseItem;
 import net.exotia.plugins.economy.inventory.InventoryConfiguration;
-import net.exotia.plugins.economy.utils.ItemCreator;
+import net.exotia.plugins.economy.utils.items.ItemCreator;
+import net.exotia.plugins.economy.utils.items.YourItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,8 +24,8 @@ public class ExchangeInventoryConfiguration extends OkaeriConfig implements Inve
     );
     public HashMap<Character, BaseItem> items = this.setupItems();
 
-    private ItemStack categoryView = new ItemCreator(Material.BEDROCK).title("&7{name}").lore(List.of("", " &8&l>> &7Kliknij aby przejsc")).build();
-    private ItemStack sellManyItem = new ItemCreator(Material.GOLD_BLOCK).title("&6&lSPRZEDAJ WIELE").build();
+    private YourItem categoryView = new ItemCreator(Material.BEDROCK).title("&7{name}").lore(List.of("", " &8&l>> &7Kliknij aby przejsc")).build();
+    private YourItem sellManyItem = new ItemCreator(Material.GOLD_BLOCK).title("&6&lSPRZEDAJ WIELE").build();
 
     @Override
     public String[] getPattern() {
@@ -43,7 +43,7 @@ public class ExchangeInventoryConfiguration extends OkaeriConfig implements Inve
     }
 
     public ItemStack getCategoryItem(ExchangeCategory exchangeCategory) {
-        ItemStack itemStack = this.categoryView.clone();
+        ItemStack itemStack = this.categoryView.getItem().clone();
         itemStack.setType(exchangeCategory.getIcon());
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(meta.getDisplayName().replace("{name}", exchangeCategory.getName()));

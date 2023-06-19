@@ -27,7 +27,7 @@ public class AcceptWithdrawItem extends AbstractItem {
 
     @Override
     public ItemProvider getItemProvider() {
-        ItemStack itemStack = this.inventoryConfiguration.getAcceptWithdrawItem().clone();
+        ItemStack itemStack = this.inventoryConfiguration.getAcceptWithdrawItem().getItem().clone();
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(itemMeta.getDisplayName().replace("{amount}", String.valueOf(this.value)));
         itemStack.setItemMeta(itemMeta);

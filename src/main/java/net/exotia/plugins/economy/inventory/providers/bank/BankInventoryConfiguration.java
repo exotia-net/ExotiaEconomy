@@ -4,7 +4,7 @@ import eu.okaeri.configs.OkaeriConfig;
 import lombok.Getter;
 import net.exotia.plugins.economy.inventory.BaseItem;
 import net.exotia.plugins.economy.inventory.InventoryConfiguration;
-import net.exotia.plugins.economy.utils.ItemCreator;
+import net.exotia.plugins.economy.utils.items.ItemCreator;
 import org.bukkit.Material;
 
 import java.util.HashMap;

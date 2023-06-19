@@ -47,7 +47,7 @@ public class ExchangeViewItem extends AbstractItem {
         }).map(ItemStack::getAmount).mapToInt(i -> i).sum();
 
         if (itemsCount <= 0) {
-            this.showError(event, this.inventoryConfiguration.getItemsNotFound());
+            this.showError(event, this.inventoryConfiguration.getItemsNotFound().getItem());
             return;
         }
 
