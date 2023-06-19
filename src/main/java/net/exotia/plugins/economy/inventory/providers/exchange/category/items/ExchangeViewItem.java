@@ -6,6 +6,7 @@ import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.configuration.objects.ExchangeItem;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventoryConfiguration;
 import net.exotia.plugins.economy.utils.MessageUtil;
+import net.exotia.plugins.economy.utils.items.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,15 +47,21 @@ public class ExchangeViewItem extends AbstractItem {
             return itemStack.getType().equals(this.exchangeItem.getMaterial());
         }).map(ItemStack::getAmount).mapToInt(i -> i).sum();
 
-        if (itemsCount <= 0) {
+        if (itemsCount < this.exchangeItem.getCount()) {
             this.showError(event, this.inventoryConfiguration.getItemsNotFound().getItem());
             return;
         }
 
-        int totalCost = (itemsCount * this.exchangeItem.getPrice()) / this.exchangeItem.getCount();
-        player.getInventory().remove(this.exchangeItem.getMaterial());
+        int stacksCount = itemsCount/this.exchangeItem.getCount();
+        int totalCost = stacksCount*this.exchangeItem.getPrice();
+        int amount = itemsCount-(this.exchangeItem.getCount()*stacksCount);
+
         this.economyService.give(player.getUniqueId(), totalCost);
         this.economyService.save(player.getUniqueId());
+
+        player.getInventory().remove(this.exchangeItem.getMaterial());
+        player.getInventory().addItem(new ItemCreator(this.exchangeItem.getMaterial()).amount(amount).build().getItem());
+
         MessageUtil.send(player, this.messages.getYouSoldItem()
                 .replace("{count}", String.valueOf(itemsCount))
                 .replace("{item_name}", this.exchangeItem.getMaterial().name())

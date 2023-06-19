@@ -9,7 +9,6 @@ import net.exotia.plugins.economy.inventory.InventoryConfiguration;
 import net.exotia.plugins.economy.inventory.InventoryOpener;
 import net.exotia.plugins.economy.inventory.OpenableInventory;
 import net.exotia.plugins.economy.inventory.providers.bank.BankInventory;
-import net.exotia.plugins.economy.inventory.providers.bank.deposit.items.ConfirmDepositItem;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -38,7 +37,7 @@ public class BankDepositInventory implements OpenableInventory {
         this.inventoryConfiguration.getItems().forEach((character, baseItem) -> {
             builder.addIngredient(character, new SimpleItem(new ItemBuilder(baseItem.getYourItem().getItem())));
         });
-//                .addIngredient('C', this.injector.createInstance(ConfirmDepositItem.class).parameters(this.virtualInventory));
+
         return builder.build();
     }
 

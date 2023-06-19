@@ -6,6 +6,7 @@ import net.exotia.plugins.economy.configuration.files.ExchangeConfiguration;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.inventory.providers.exchange.ExchangeInventoryConfiguration;
 import net.exotia.plugins.economy.utils.MessageUtil;
+import net.exotia.plugins.economy.utils.items.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -41,8 +42,13 @@ public class SellManyItem extends AbstractItem {
                     return itemStack.getType().equals(item.getMaterial());
                 }).map(ItemStack::getAmount).mapToInt(i -> i).sum();
 
-                int totalCost = (itemCount * item.getPrice()) / item.getCount();
+                int stacksCount = itemCount/item.getCount();
+                int totalCost = stacksCount*item.getPrice();
+                int amount = itemCount-(item.getCount()*stacksCount);
+
                 player.getInventory().remove(item.getMaterial());
+                player.getInventory().addItem(new ItemCreator(item.getMaterial()).amount(amount).build().getItem());
+
                 itemsCount.addAndGet(itemCount);
                 price.addAndGet(totalCost);
             });
@@ -51,6 +57,7 @@ public class SellManyItem extends AbstractItem {
                 .replace("{count}", String.valueOf(itemsCount.get()))
                 .replace("{price}", String.valueOf(price.get()))
         );
+        if (price.get() <= 0) return;
         this.economyService.give(player.getUniqueId(), price.get());
         this.economyService.save(player.getUniqueId());
     }
