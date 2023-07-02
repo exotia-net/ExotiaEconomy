@@ -13,7 +13,7 @@ public class CommandsSection extends OkaeriConfig {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pay", "przelej");
         hashMap.put("bank", "bank");
-        hashMap.put("balance", "pieniadze");
+        hashMap.put("balance", "saldo");
         return hashMap;
     }
 }

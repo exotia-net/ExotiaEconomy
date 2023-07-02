@@ -4,6 +4,7 @@ import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
 import net.exotia.plugins.economy.module.CoinsService;
+import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -31,7 +32,7 @@ public class AcceptWithdrawItem extends AbstractItem {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(itemMeta.getDisplayName().replace("{amount}", String.valueOf(this.value)));
         itemStack.setItemMeta(itemMeta);
-        return new ItemBuilder(itemStack);
+        return new ItemBuilder(MessageUtil.colorize(itemStack));
     }
 
     @Override

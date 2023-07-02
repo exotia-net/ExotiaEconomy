@@ -4,6 +4,7 @@ import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
 import net.exotia.plugins.economy.inventory.providers.bank.withdraw.CoinConfigEntity;
+import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -42,7 +43,7 @@ public class AddValueItem extends AbstractItem {
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(meta.getDisplayName().replace("{amount}", String.valueOf(this.value)));
         itemStack.setItemMeta(meta);
-        return new ItemBuilder(itemStack);
+        return new ItemBuilder(MessageUtil.colorize(itemStack));
     }
 
     @Override

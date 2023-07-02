@@ -22,7 +22,7 @@ public class PlayerArgument implements OneArgument<Player> {
     @Override
     public Result<Player, Object> parse(LiteInvocation invocation, String argument) {
         return Option.of(Bukkit.getPlayer(argument))
-                .toResult(MessageUtil.implementColors(this.messages.getPlayerIsOffline()));
+                .toResult(MessageUtil.serialize(this.messages.getPlayerIsOffline()));
     }
     @Override
     public List<Suggestion> suggest(LiteInvocation invocation) {

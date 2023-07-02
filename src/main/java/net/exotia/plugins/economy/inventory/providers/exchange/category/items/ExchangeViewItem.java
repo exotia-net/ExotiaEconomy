@@ -7,6 +7,7 @@ import net.exotia.plugins.economy.configuration.objects.ExchangeItem;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventoryConfiguration;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import net.exotia.plugins.economy.utils.items.ItemCreator;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,13 +21,13 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ExchangeViewItem extends AbstractItem {
     @Inject private ExchangeCategoryInventoryConfiguration inventoryConfiguration;
     @Inject private ApiEconomyService economyService;
     @Inject private Plugin plugin;
     @Inject private MessagesConfiguration messages;
+    @Inject private BukkitAudiences bukkitAudiences;
 
     private ExchangeItem exchangeItem;
 
@@ -37,7 +38,7 @@ public class ExchangeViewItem extends AbstractItem {
 
     @Override
     public ItemProvider getItemProvider() {
-        return new ItemBuilder(this.inventoryConfiguration.getItem(this.exchangeItem));
+        return new ItemBuilder(MessageUtil.colorize(this.inventoryConfiguration.getItem(this.exchangeItem)));
     }
 
     @Override
@@ -62,11 +63,12 @@ public class ExchangeViewItem extends AbstractItem {
         player.getInventory().remove(this.exchangeItem.getMaterial());
         player.getInventory().addItem(new ItemCreator(this.exchangeItem.getMaterial()).amount(amount).build().getItem());
 
-        MessageUtil.send(player, this.messages.getYouSoldItem()
-                .replace("{count}", String.valueOf(itemsCount))
-                .replace("{item_name}", this.exchangeItem.getMaterial().name())
-                .replace("{price}", String.valueOf(totalCost))
-        );
+        this.bukkitAudiences.player(player).sendMessage(MessageUtil.deserialize(
+                this.messages.getYouSoldItem()
+                        .replace("{count}", String.valueOf(itemsCount))
+                        .replace("{item_name}", this.exchangeItem.getMaterial().name())
+                        .replace("{price}", String.valueOf(totalCost))
+        ));
     }
 
     private void showError(InventoryClickEvent event, ItemStack itemStack) {

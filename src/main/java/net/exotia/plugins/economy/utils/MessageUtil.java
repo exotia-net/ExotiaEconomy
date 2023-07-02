@@ -1,48 +1,68 @@
 package net.exotia.plugins.economy.utils;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MessageUtil {
-    private static final Pattern hexPattern = Pattern.compile("#[a-fA-F0-9]{6}");
+    public static Component deserialize(String message) {
+        return MiniMessage.miniMessage().deserialize(parse(message));
+    }
+    public static String serialize(String message) {
+        return LegacyComponentSerializer.legacySection().serialize(deserialize(parse(message)));
+    }
+    public static String serialize(Component component) {
+        return LegacyComponentSerializer.legacySection().serialize(component);
+    }
 
-    public static void send(CommandSender sender, String message) {
-        sender.sendMessage(implementColors(message));
-    }
-    public static void send(Player player, String message) {
-        player.sendMessage(implementColors(message));
-    }
-    public static String implementColors(String message) {
-        if (message == null) return null;
-        for (Matcher matcher = hexPattern.matcher(message); matcher.find(); matcher = hexPattern.matcher(message)) {
-            String color = message.substring(matcher.start(), matcher.end());
-            message = message.replace(color, ChatColor.of(color) + "");
+    public static ItemStack colorize(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setDisplayName(serialize(meta.getDisplayName()));
+        if (meta.getLore() != null) {
+            meta.setLore(meta.getLore().stream().map(MessageUtil::serialize).toList());
         }
-        return ChatColor.translateAlternateColorCodes('&', message.replace("<<", "«").replace(">>", "»"));
+        itemStack.setItemMeta(meta);
+        return itemStack;
     }
 
-    public static List<String> implementColors(List<String> message) {
-        if (message == null) return null;
-        List<String> messages = new ArrayList<>();
-        message.forEach(s -> messages.add(implementColors(s)));
-        return messages;
-    }
-    public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String message, String subtitle) {
-        player.sendTitle(MessageUtil.implementColors(message), MessageUtil.implementColors(subtitle), fadeIn, stay, fadeOut);
-    }
-    public static void sendActionbar(Player player, String message){
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(MessageUtil.implementColors(message)));
-    }
-    public static void clearTitle(Player player) {
-        sendTitle(player, 0, 0, 0, "", "");
+    private static String parse(String message) {
+        AtomicReference<String> atomicReference = new AtomicReference<>(message);
+        Map<Character, String> map = new HashMap<>();
+        map.put('0', "black");
+        map.put('1', "dark_blue");
+        map.put('2', "dark_green");
+        map.put('3', "dark_aqua");
+        map.put('4', "dark_red");
+        map.put('5', "dark_purple");
+        map.put('6', "gold");
+        map.put('7', "gray");
+        map.put('8', "dark_gray");
+        map.put('9', "blue");
+        map.put('a', "green");
+        map.put('b', "aqua");
+        map.put('c', "red");
+        map.put('d', "light_purple");
+        map.put('e', "yellow");
+        map.put('f', "white");
+        map.put('l', "bold");
+        map.put('o', "italic");
+        map.put('n', "underlined");
+        map.put('m', "strikethrough");
+        map.put('k', "obfuscated");
+
+        map.forEach((key, value) -> {
+            atomicReference.set(atomicReference.get()
+                    .replace("§"+key, String.format("<%s>", value))
+                    .replace("&"+key, String.format("<%s>", value))
+            );
+        });
+
+        return atomicReference.get();
     }
 }

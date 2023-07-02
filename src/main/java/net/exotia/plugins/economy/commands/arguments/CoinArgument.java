@@ -23,7 +23,7 @@ public class CoinArgument implements OneArgument<Coin> {
     @Override
     public Result<Coin, Object> parse(LiteInvocation invocation, String argument) {
         return Option.of(this.coinsService.findCoin(Integer.parseInt(argument)))
-                .toResult(MessageUtil.implementColors(this.messages.getInvalidCoin()));
+                .toResult(MessageUtil.serialize(this.messages.getInvalidCoin()));
     }
     @Override
     public List<Suggestion> suggest(LiteInvocation invocation) {

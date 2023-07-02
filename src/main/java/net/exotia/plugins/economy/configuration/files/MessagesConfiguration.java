@@ -16,7 +16,12 @@ public class MessagesConfiguration extends OkaeriConfig {
     private String invalidInteger = "&8&l>> &cNiepoprawna kwota!";
     private String playerIsOffline = "&8&l>> &cTen gracz jest offline!";
     private String onlyForPlayer = "&8&l>> &cTa komenda jest tylko dla gracza!";
-    private List<String> balance = Arrays.asList("", "&8&l>> &7Monety na twoim koncie: &e{account_balance}", "&8&l>> &7Monety w twoim ekwipunku: &e{physical_balance}", "");
+    private List<String> balance = Arrays.asList(
+            "",
+            " Monety na twoim koncie: <gradient:#4fa943:#9ec52f><b>{account_balance}</b></gradient>",
+            " Monety w twoim ekwipunku: <gradient:#4fa943:#9ec52f><b>{physical_balance}</b></gradient>",
+            ""
+    );
 
     private String adminGiveMoney = "&8&l>> &aDodałes {value} do konta gracza {player_name}";
     private String playerReceivedMoneyFromServer = "&8&l>> &aNa twoje konto wplynelo {value}!";

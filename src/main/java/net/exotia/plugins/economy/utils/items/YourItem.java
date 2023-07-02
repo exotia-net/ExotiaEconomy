@@ -3,6 +3,7 @@ package net.exotia.plugins.economy.utils.items;
 import eu.okaeri.configs.OkaeriConfig;
 import io.th0rgal.oraxen.api.OraxenItems;
 import lombok.AllArgsConstructor;
+import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 

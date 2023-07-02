@@ -39,19 +39,19 @@ public class ItemCreator {
     }
 
     public ItemCreator title(String title) {
-        this.displayName = MessageUtil.implementColors(title);
+        this.displayName = MessageUtil.serialize(title);
         return this;
     }
     public ItemCreator lore(String lore) {
-        this.lore.add(MessageUtil.implementColors(lore));
+        this.lore.add(MessageUtil.serialize(lore));
         return this;
     }
     public ItemCreator lore(List<String> loreLines) {
-        this.lore.addAll(loreLines.stream().map(MessageUtil::implementColors).toList());
+        this.lore.addAll(loreLines.stream().map(MessageUtil::serialize).toList());
         return this;
     }
     public ItemCreator lore(String[] loreLines) {
-        this.lore.addAll(Arrays.stream(loreLines).map(MessageUtil::implementColors).toList());
+        this.lore.addAll(Arrays.stream(loreLines).map(MessageUtil::serialize).toList());
         return this;
     }
     public ItemCreator setLoreForce(List<String> lore) {

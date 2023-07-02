@@ -9,6 +9,7 @@ import net.exotia.plugins.economy.configuration.ConfigurationModule;
 import net.exotia.plugins.economy.inventory.InventoryOpener;
 import net.exotia.plugins.economy.listeners.PlaceCoinListener;
 import net.exotia.plugins.economy.module.CoinsService;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class EconomyPlugin extends JavaPlugin {
@@ -18,6 +19,7 @@ public final class EconomyPlugin extends JavaPlugin {
     public void onEnable() {
         this.injector.registerInjectable(this.injector);
         this.injector.registerInjectable(this);
+        this.injector.registerInjectable(BukkitAudiences.create(this));
         this.setupExotiaBridge();
         this.setupModules();
         this.getServer().getPluginManager().registerEvents(new PlaceCoinListener(), this);

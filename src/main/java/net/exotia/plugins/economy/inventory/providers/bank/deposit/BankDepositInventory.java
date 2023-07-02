@@ -1,7 +1,6 @@
 package net.exotia.plugins.economy.inventory.providers.bank.deposit;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.annotation.Inject;
 import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
@@ -10,6 +9,7 @@ import net.exotia.plugins.economy.inventory.InventoryOpener;
 import net.exotia.plugins.economy.inventory.OpenableInventory;
 import net.exotia.plugins.economy.inventory.providers.bank.BankInventory;
 import net.exotia.plugins.economy.utils.MessageUtil;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,6 +25,8 @@ public class BankDepositInventory implements OpenableInventory {
     @Inject private MessagesConfiguration messages;
     @Inject private ApiEconomyService economyService;
     @Inject private Plugin plugin;
+    @Inject private BukkitAudiences bukkitAudiences;
+
     private VirtualInventory virtualInventory;
 
     @Override
@@ -63,7 +65,10 @@ public class BankDepositInventory implements OpenableInventory {
             if (total <= 0) return;
             this.economyService.give(player.getUniqueId(), total);
             this.economyService.save(player.getUniqueId());
-            MessageUtil.send(player, this.messages.getDeposit().replace("{count}", String.valueOf(total)));
+
+            this.bukkitAudiences.player(player).sendMessage(MessageUtil.deserialize(
+                    this.messages.getDeposit().replace("{count}", String.valueOf(total))
+            ));
             
             Bukkit.getScheduler().runTask(this.plugin, () -> inventoryOpener.open(player, BankInventory.class));
         };

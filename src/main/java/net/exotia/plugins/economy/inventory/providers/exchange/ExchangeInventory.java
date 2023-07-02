@@ -8,6 +8,7 @@ import net.exotia.plugins.economy.inventory.InventoryOpener;
 import net.exotia.plugins.economy.inventory.OpenableInventory;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventory;
 import net.exotia.plugins.economy.inventory.providers.exchange.items.SellManyItem;
+import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -39,7 +40,7 @@ public class ExchangeInventory implements OpenableInventory {
             gui.addItems(new AbstractItem() {
                 @Override
                 public ItemProvider getItemProvider() {
-                    return new ItemBuilder(inventoryConfiguration.getCategoryItem(category));
+                    return new ItemBuilder(MessageUtil.colorize(inventoryConfiguration.getCategoryItem(category)));
                 }
                 @Override
                 public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {

@@ -7,6 +7,7 @@ import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.inventory.providers.exchange.ExchangeInventoryConfiguration;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import net.exotia.plugins.economy.utils.items.ItemCreator;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -25,6 +26,7 @@ public class SellManyItem extends AbstractItem {
     @Inject private ExchangeConfiguration exchangeConfiguration;
     @Inject private ApiEconomyService economyService;
     @Inject private MessagesConfiguration messages;
+    @Inject private BukkitAudiences bukkitAudiences;
 
     @Override
     public ItemProvider getItemProvider() {
@@ -53,10 +55,13 @@ public class SellManyItem extends AbstractItem {
                 price.addAndGet(totalCost);
             });
         });
-        MessageUtil.send(player, this.messages.getYouSoldItems()
-                .replace("{count}", String.valueOf(itemsCount.get()))
-                .replace("{price}", String.valueOf(price.get()))
-        );
+
+        this.bukkitAudiences.player(player).sendMessage(MessageUtil.deserialize(
+                this.messages.getYouSoldItems()
+                        .replace("{count}", String.valueOf(itemsCount.get()))
+                        .replace("{price}", String.valueOf(price.get()))
+        ));
+
         if (price.get() <= 0) return;
         this.economyService.give(player.getUniqueId(), price.get());
         this.economyService.save(player.getUniqueId());

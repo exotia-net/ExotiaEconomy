@@ -31,8 +31,8 @@ public class CommandsModule {
     @PostConstruct
     public void onConstruct() {
         var builder = LiteBukkitFactory.builder(this.plugin.getServer(), this.plugin.getName())
-                .argument(Player.class, new BukkitPlayerArgument<>(this.plugin.getServer(), MessageUtil.implementColors(this.messages.getPlayerIsOffline())))
-                .contextualBind(Player.class, new BukkitOnlyPlayerContextual<>(MessageUtil.implementColors(this.messages.getOnlyForPlayer())))
+                .argument(Player.class, new BukkitPlayerArgument<>(this.plugin.getServer(), MessageUtil.serialize(this.messages.getPlayerIsOffline())))
+                .contextualBind(Player.class, new BukkitOnlyPlayerContextual<>(MessageUtil.serialize(this.messages.getOnlyForPlayer())))
 
                 .argument(Coin.class, this.injector.createInstance(CoinArgument.class))
                 .argument(Integer.class, this.injector.createInstance(IntegerArgument.class))
