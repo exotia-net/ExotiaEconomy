@@ -1,10 +1,11 @@
 package net.exotia.plugins.economy.inventory.providers.exchange.items;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import eu.okaeri.injector.annotation.Inject;
-import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.configuration.files.ExchangeConfiguration;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.inventory.providers.exchange.ExchangeInventoryConfiguration;
+import net.exotia.plugins.economy.module.EconomyService;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import net.exotia.plugins.economy.utils.items.ItemCreator;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -24,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SellManyItem extends AbstractItem {
     @Inject private ExchangeInventoryConfiguration inventoryConfiguration;
     @Inject private ExchangeConfiguration exchangeConfiguration;
-    @Inject private ApiEconomyService economyService;
+    @Inject private EconomyService economyService;
     @Inject private MessagesConfiguration messages;
     @Inject private BukkitAudiences bukkitAudiences;
 
@@ -36,7 +37,7 @@ public class SellManyItem extends AbstractItem {
     @Override
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
         AtomicInteger itemsCount = new AtomicInteger();
-        AtomicInteger price = new AtomicInteger();
+        AtomicDouble price = new AtomicDouble();
         this.exchangeConfiguration.getCategories().forEach((key, category) -> {
             category.getItems().forEach(item -> {
                 int itemCount = Arrays.stream(player.getInventory().getContents()).filter(itemStack -> {
@@ -45,7 +46,7 @@ public class SellManyItem extends AbstractItem {
                 }).map(ItemStack::getAmount).mapToInt(i -> i).sum();
 
                 int stacksCount = itemCount/item.getCount();
-                int totalCost = stacksCount*item.getPrice();
+                double totalCost = stacksCount*item.getPrice();
                 int amount = itemCount-(item.getCount()*stacksCount);
 
                 player.getInventory().remove(item.getMaterial());
@@ -63,7 +64,7 @@ public class SellManyItem extends AbstractItem {
         ));
 
         if (price.get() <= 0) return;
-        this.economyService.give(player.getUniqueId(), price.get());
-        this.economyService.save(player.getUniqueId());
+        this.economyService.give(player, price.get());
+        //this.economyService.save(player.getUniqueId());
     }
 }

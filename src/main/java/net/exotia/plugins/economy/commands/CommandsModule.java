@@ -9,10 +9,8 @@ import eu.okaeri.injector.annotation.PostConstruct;
 import net.exotia.plugins.economy.commands.arguments.CoinArgument;
 import net.exotia.plugins.economy.commands.arguments.IntegerArgument;
 import net.exotia.plugins.economy.commands.execute.admin.EconomyAdminCommand;
-import net.exotia.plugins.economy.commands.execute.player.BalanceCommand;
 import net.exotia.plugins.economy.commands.execute.player.BankCommand;
 import net.exotia.plugins.economy.commands.execute.player.ExchangeCommand;
-import net.exotia.plugins.economy.commands.execute.player.PayCommand;
 import net.exotia.plugins.economy.commands.handler.InvalidCommandUsageHandler;
 import net.exotia.plugins.economy.commands.handler.UnauthorizedCommandHandler;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
@@ -37,12 +35,8 @@ public class CommandsModule {
                 .argument(Coin.class, this.injector.createInstance(CoinArgument.class))
                 .argument(Integer.class, this.injector.createInstance(IntegerArgument.class))
 
-                // Economy Admin commands
-                .commandInstance(this.injector.createInstance(EconomyAdminCommand.class))
-                // Player commands
                 .commandInstance(
-                        this.injector.createInstance(BalanceCommand.class),
-                        this.injector.createInstance(PayCommand.class),
+                        this.injector.createInstance(EconomyAdminCommand.class),
                         this.injector.createInstance(BankCommand.class),
                         this.injector.createInstance(ExchangeCommand.class)
                 )

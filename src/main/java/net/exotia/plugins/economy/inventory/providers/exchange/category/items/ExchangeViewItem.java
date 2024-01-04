@@ -1,10 +1,10 @@
 package net.exotia.plugins.economy.inventory.providers.exchange.category.items;
 
 import eu.okaeri.injector.annotation.Inject;
-import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.configuration.objects.ExchangeItem;
 import net.exotia.plugins.economy.inventory.providers.exchange.category.ExchangeCategoryInventoryConfiguration;
+import net.exotia.plugins.economy.module.EconomyService;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import net.exotia.plugins.economy.utils.items.ItemCreator;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -24,7 +24,7 @@ import java.util.Arrays;
 
 public class ExchangeViewItem extends AbstractItem {
     @Inject private ExchangeCategoryInventoryConfiguration inventoryConfiguration;
-    @Inject private ApiEconomyService economyService;
+    @Inject private EconomyService economyService;
     @Inject private Plugin plugin;
     @Inject private MessagesConfiguration messages;
     @Inject private BukkitAudiences bukkitAudiences;
@@ -54,11 +54,11 @@ public class ExchangeViewItem extends AbstractItem {
         }
 
         int stacksCount = itemsCount/this.exchangeItem.getCount();
-        int totalCost = stacksCount*this.exchangeItem.getPrice();
+        double totalCost = stacksCount*this.exchangeItem.getPrice();
         int amount = itemsCount-(this.exchangeItem.getCount()*stacksCount);
 
-        this.economyService.give(player.getUniqueId(), totalCost);
-        this.economyService.save(player.getUniqueId());
+        this.economyService.give(player, totalCost);
+        //this.economyService.save(player.getUniqueId());
 
         player.getInventory().remove(this.exchangeItem.getMaterial());
         player.getInventory().addItem(new ItemCreator(this.exchangeItem.getMaterial()).amount(amount).build().getItem());

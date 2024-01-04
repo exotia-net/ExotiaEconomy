@@ -1,14 +1,28 @@
 package net.exotia.plugins.economy.configuration.objects;
 
 import eu.okaeri.configs.OkaeriConfig;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.bukkit.Material;
 
-@Getter
-@AllArgsConstructor
 public class ExchangeItem extends OkaeriConfig {
-    private int count;
-    private int price;
-    private Material material;
+    private final int count;
+    private final double price;
+    private final Material material;
+
+    public ExchangeItem(int count, double price, Material material) {
+        this.count = count;
+        this.price = price;
+        this.material = material;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
 }

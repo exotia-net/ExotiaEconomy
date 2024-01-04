@@ -2,12 +2,12 @@ package net.exotia.plugins.economy.inventory.providers.bank.deposit;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import eu.okaeri.injector.annotation.Inject;
-import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.configuration.files.MessagesConfiguration;
 import net.exotia.plugins.economy.inventory.InventoryConfiguration;
 import net.exotia.plugins.economy.inventory.InventoryOpener;
 import net.exotia.plugins.economy.inventory.OpenableInventory;
 import net.exotia.plugins.economy.inventory.providers.bank.BankInventory;
+import net.exotia.plugins.economy.module.EconomyService;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ import java.util.Arrays;
 public class BankDepositInventory implements OpenableInventory {
     @Inject private BankDepositInventoryConfiguration inventoryConfiguration;
     @Inject private MessagesConfiguration messages;
-    @Inject private ApiEconomyService economyService;
+    @Inject private EconomyService economyService;
     @Inject private Plugin plugin;
     @Inject private BukkitAudiences bukkitAudiences;
 
@@ -63,8 +63,8 @@ public class BankDepositInventory implements OpenableInventory {
             }).mapToInt(i -> i).sum();
 
             if (total <= 0) return;
-            this.economyService.give(player.getUniqueId(), total);
-            this.economyService.save(player.getUniqueId());
+            this.economyService.give(player, total);
+            //this.economyService.save(player.getUniqueId());
 
             this.bukkitAudiences.player(player).sendMessage(MessageUtil.deserialize(
                     this.messages.getDeposit().replace("{count}", String.valueOf(total))

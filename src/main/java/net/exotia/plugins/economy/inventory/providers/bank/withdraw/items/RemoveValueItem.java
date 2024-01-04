@@ -1,9 +1,9 @@
 package net.exotia.plugins.economy.inventory.providers.bank.withdraw.items;
 
 import eu.okaeri.injector.annotation.Inject;
-import net.exotia.bridge.api.user.ApiEconomyService;
 import net.exotia.plugins.economy.inventory.providers.bank.withdraw.BankWithdrawInventoryConfiguration;
 import net.exotia.plugins.economy.inventory.providers.bank.withdraw.CoinConfigEntity;
+import net.exotia.plugins.economy.module.EconomyService;
 import net.exotia.plugins.economy.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,7 +21,6 @@ import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 public class RemoveValueItem extends AbstractItem {
     @Inject private BankWithdrawInventoryConfiguration inventoryConfiguration;
-    @Inject private ApiEconomyService economyService;
     @Inject private Plugin plugin;
     private int value;
     private CoinConfigEntity coinConfigEntity;
